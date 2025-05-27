@@ -1,0 +1,18 @@
+{
+  "name": "Node.js & TypeScript",
+  "dockerComposeFile": ["compose.yml"],
+  "service": "app",
+  "workspaceFolder": "/workspace",
+  "features": {
+    "ghcr.io/devcontainers/features/git:1": {
+      "version": "latest",
+      "ppa": "false"
+    }
+  },
+
+  "forwardPorts": [3000],
+
+  "postCreateCommand": "npm install --force",
+
+  "remoteUser": "node"
+}

@@ -1,0 +1,9 @@
+---
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: sleep infinity
+    env_file:
+      - ../.env
