@@ -1,5 +1,5 @@
 {
-  "name": "Node.js & TypeScript",
+  "name": "delok devcontainers",
   "dockerComposeFile": ["compose.yml"],
   "service": "app",
   "workspaceFolder": "/workspace",
@@ -10,9 +10,15 @@
     }
   },
 
-  "forwardPorts": [3000],
+  "customizations": {
+    "vscode": {
+      "extensions": ["esbenp.prettier-vscode"]
+    }
+  },
 
-  "postCreateCommand": "npm install --force",
+  "forwardPorts": [5173],
+
+  "postCreateCommand": "npm install",
 
   "remoteUser": "node"
 }
