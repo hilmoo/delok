@@ -23,6 +23,10 @@ import { shadcnCssVariableResolver } from "./mantine/cssVariableResolver";
 import { shadcnTheme } from "./mantine/theme";
 import { wagmiConfig } from "./wagmi";
 
+export function meta({}: Route.MetaArgs) {
+  return [{ title: "DeLok" }];
+}
+
 export const links: Route.LinksFunction = () => [
   { rel: "stylesheet", href: defaultMantine },
   { rel: "stylesheet", href: fontCustom },
