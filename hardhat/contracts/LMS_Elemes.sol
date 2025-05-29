@@ -2,9 +2,14 @@
 pragma solidity ^0.8.22;
 
 contract LMS_Elemes {
-    enum Status { None, Requested, Registered }
+    enum Status {
+        None,
+        Requested,
+        Registered
+    }
     mapping(address => Status) private _userStatus;
     mapping(address => bytes32) private _registeredUsers;
+    mapping(bytes32 => bool) private _lmsidAssigned;
     address public oracle;
 
     event RegistrationRequested(address indexed user);
@@ -20,14 +25,22 @@ contract LMS_Elemes {
     }
 
     function register() public {
-        require(_userStatus[msg.sender] == Status.None, "Already requested or registered");
+        require(
+            _userStatus[msg.sender] == Status.None,
+            "Already requested or registered"
+        );
         _userStatus[msg.sender] = Status.Requested;
         emit RegistrationRequested(msg.sender);
     }
 
     function assignLMSid(address user, bytes32 lmsid) public onlyOracle {
-        require(_userStatus[user] == Status.Requested, "Registration not requested or already registered");
+        require(
+            _userStatus[user] == Status.Requested,
+            "Registration not requested or already registered"
+        );
+        require(!_lmsidAssigned[lmsid], "lmsid already assigned");
         _registeredUsers[user] = lmsid;
+        _lmsidAssigned[lmsid] = true;
         _userStatus[user] = Status.Registered;
         emit UserRegistered(user, lmsid);
     }
@@ -36,7 +49,7 @@ contract LMS_Elemes {
         return _userStatus[_user] == Status.Registered;
     }
 
-    function getLMSid(address _user) public view onlyOracle returns (bytes32) {
+    function getLMSid(address _user) public view returns (bytes32) {
         require(_userStatus[_user] == Status.Registered, "User not registered");
         return _registeredUsers[_user];
     }
