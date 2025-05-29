@@ -12,11 +12,11 @@
 
   "customizations": {
     "vscode": {
-      "extensions": ["esbenp.prettier-vscode"]
+      "extensions": ["esbenp.prettier-vscode", "NomicFoundation.hardhat-solidity"]
     }
   },
 
-  "forwardPorts": [5173],
+  "forwardPorts": [5173, 8545],
 
   "postCreateCommand": "npm install",
 
