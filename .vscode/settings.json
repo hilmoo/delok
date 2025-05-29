@@ -1,8 +1,5 @@
 {
   "files.associations": {
     "*.module.css": "postcss"
-  },
-  "files.exclude": {
-    "**/.git": false
   }
 }

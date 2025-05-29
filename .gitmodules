@@ -1,0 +1,3 @@
+[submodule ".devcontainer/block-explorer"]
+	path = .devcontainer/block-explorer
+	url = https://github.com/Shaivpidadi/custom-block-explorer.git
