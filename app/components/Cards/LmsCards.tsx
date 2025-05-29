@@ -1,5 +1,4 @@
 import { Card, Flex, Stack, Text, Title } from "@mantine/core";
-import { useDisclosure } from "@mantine/hooks";
 import type { Lms } from "~/types/lms";
 import classes from "./LmsCards.module.css";
 
@@ -27,7 +26,6 @@ export function LmsCards({ data }: LmsCardsProps) {
     </Card>
   ));
 
-  const [opened, { open, close }] = useDisclosure(false);
   return (
     <>
       <Flex gap="md" align="center" direction="row" wrap="wrap">
