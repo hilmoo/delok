@@ -5,11 +5,10 @@ import { ofetch } from "ofetch";
 import { data, redirect, useNavigate } from "react-router";
 import { randomUUID } from "uncrypto";
 import { createSiweMessage, generateSiweNonce } from "viem/siwe";
-import { useAccount, useConnect } from "wagmi";
+import { useAccount, useConnect, wagmiConfig } from "wagmi";
 import { commitSession, getSession } from "~/lib/sessions";
 import { storage } from "~/lib/storage";
 import type { LoginPayload } from "~/types/auth";
-import { wagmiConfig } from "~/wagmi";
 import TokenBrandedMetamask from "~icons/token-branded/metamask";
 import type { Route } from "./+types/_index";
 

@@ -19,9 +19,9 @@ import {
   ScrollRestoration,
 } from "react-router";
 import { WagmiProvider } from "wagmi";
+import { wagmiConfig } from "./wagmi";
 import { shadcnCssVariableResolver } from "./mantine/cssVariableResolver";
 import { shadcnTheme } from "./mantine/theme";
-import { wagmiConfig } from "./wagmi";
 
 export function meta({}: Route.MetaArgs) {
   return [{ title: "DeLok" }];

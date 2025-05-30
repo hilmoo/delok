@@ -1,10 +1,10 @@
 import { getPublicClient } from "@wagmi/core";
 import { data, redirect } from "react-router";
 import { parseSiweMessage } from "viem/siwe";
+import { wagmiConfig } from "wagmi";
 import { commitSession, getSession } from "~/lib/sessions";
 import { storage } from "~/lib/storage";
 import type { LoginPayload } from "~/types/auth";
-import { wagmiConfig } from "~/wagmi";
 import type { Route } from "./+types/api.login";
 
 export async function action({ request }: Route.ActionArgs) {

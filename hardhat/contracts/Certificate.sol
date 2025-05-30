@@ -19,7 +19,7 @@ contract DelokCertificate is
     uint256 private _nextTokenId;
     mapping(address => mapping(uint256 => bool)) private hasMinted_Elemes;
     mapping(address => mapping(uint256 => bool)) private hasRequested_Elemes;
-    address private oracle;
+    address public oracle;
     event TokenMinted_Elemes(
         uint256 tokenId,
         address indexed user,
@@ -38,10 +38,10 @@ contract DelokCertificate is
         _disableInitializers();
     }
 
-    function initialize(
-        address initialOwner,
-        address _oracle
-    ) public initializer {
+    function initialize(address initialOwner, address _oracle)
+        public
+        initializer
+    {
         __ERC721_init("DelokCert", "DLC");
         __ERC721URIStorage_init();
         __Ownable_init(initialOwner);
@@ -54,9 +54,10 @@ contract DelokCertificate is
         oracle = _oracle;
     }
 
-    function setContractLMS_Elemes(
-        address _lmsElemesAddress
-    ) external onlyOwner {
+    function setContractLMS_Elemes(address _lmsElemesAddress)
+        external
+        onlyOwner
+    {
         require(_lmsElemesAddress != address(0), "Zero address");
         lmsElemes = ILMS_Elemes(_lmsElemesAddress);
     }
@@ -104,9 +105,7 @@ contract DelokCertificate is
         return tokenId;
     }
 
-    function tokenURI(
-        uint256 tokenId
-    )
+    function tokenURI(uint256 tokenId)
         public
         view
         override(ERC721Upgradeable, ERC721URIStorageUpgradeable)
@@ -115,9 +114,7 @@ contract DelokCertificate is
         return super.tokenURI(tokenId);
     }
 
-    function supportsInterface(
-        bytes4 interfaceId
-    )
+    function supportsInterface(bytes4 interfaceId)
         public
         view
         override(ERC721Upgradeable, ERC721URIStorageUpgradeable)
@@ -126,7 +123,13 @@ contract DelokCertificate is
         return super.supportsInterface(interfaceId);
     }
 
-    function _authorizeUpgrade(
-        address newImplementation
-    ) internal override onlyOwner {}
+    function _authorizeUpgrade(address newImplementation)
+        internal
+        override
+        onlyOwner
+    {}
+
+    function AddressLMSElemes() public view returns (address) {
+        return address(lmsElemes);
+    }
 }
