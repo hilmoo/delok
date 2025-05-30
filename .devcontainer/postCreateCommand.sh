@@ -1,6 +1,6 @@
 npm install
 
-cd hardhat
+cd _hardhat
 npm install
 npm run compile
 npm run deploy:lmselemes
