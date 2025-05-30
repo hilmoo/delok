@@ -26,5 +26,6 @@
   },
   "exclude": [
     "_hardhat/**",
+    "_oracle/**",
   ]
 }
