@@ -8,9 +8,8 @@ services:
       - .env
 
   hardhat:
-    build:
-      context: ./hardhat
-      dockerfile: Dockerfile
+    image: ghcr.io/hilmoo/hadhat-docker-node:main
+    container_name: hardhat
     network_mode: service:app
 
   block-explorer:

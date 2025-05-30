@@ -18,7 +18,7 @@
 
   "forwardPorts": [5173, 8545, 3000],
 
-  "postCreateCommand": "npm install",
+  "postCreateCommand": "bash ./.devcontainer/postCreateCommand.sh",
 
   "remoteUser": "node"
 }
