@@ -12,9 +12,8 @@ services:
       context: ./hardhat
       dockerfile: Dockerfile
     network_mode: service:app
-  
+
   block-explorer:
-    build:
-      context: ./block-explorer
-      dockerfile: Dockerfile
+    image: ghcr.io/hilmoo/custom-block-explorer:main
+    container_name: block-explorer
     network_mode: service:app
