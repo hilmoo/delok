@@ -17,32 +17,32 @@ services:
     container_name: block-explorer
     network_mode: service:app
 
-#   LMS_elemes:
-#     image: ghcr.io/hilmoo/elemes:1.0.0
-#     container_name: elemes
-#     ports:
-#       - "4000:3000"
-#     environment:
-#       - DATABASE_URL=${DATABASE_URL}
-#       - BETTER_AUTH_SECRET=${BETTER_AUTH_SECRET}
-#     depends_on:
-#       db:
-#         condition: service_healthy
+  LMS_elemes:
+    image: ghcr.io/hilmoo/elemes:1.0.0
+    container_name: elemes
+    ports:
+      - "4000:3000"
+    environment:
+      - DATABASE_URL=${DATABASE_URL}
+      - BETTER_AUTH_SECRET=${BETTER_AUTH_SECRET}
+    depends_on:
+      db:
+        condition: service_healthy
 
-#   db_elemes:
-#     image: postgres:17-alpine
-#     container_name: elemes-db
-#     volumes:
-#       - db-elemes:/var/lib/postgresql/data
-#     healthcheck:
-#       test: ["CMD-SHELL", "pg_isready -U postgres"]
-#       interval: 30s
-#       timeout: 30s
-#       retries: 3
-#     environment:
-#       POSTGRES_USER: ${POSTGRES_USER}
-#       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-#       POSTGRES_DB: ${POSTGRES_DB}
+  db_elemes:
+    image: postgres:17-alpine
+    container_name: elemes-db
+    volumes:
+      - db-elemes:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 30s
+      timeout: 30s
+      retries: 3
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
 
-# volumes:
-#   db-elemes:
+volumes:
+  db-elemes:
