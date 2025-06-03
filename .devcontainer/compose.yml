@@ -26,8 +26,10 @@ services:
       - DATABASE_URL=${DATABASE_URL}
       - BETTER_AUTH_SECRET=${BETTER_AUTH_SECRET}
     depends_on:
-      db:
+      db_elemes:
         condition: service_healthy
+    networks:
+      - elemes-network
 
   db_elemes:
     image: postgres:17-alpine
@@ -43,6 +45,11 @@ services:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_DB: ${POSTGRES_DB}
+    networks:
+      - elemes-network
 
 volumes:
   db-elemes:
+
+networks:
+  elemes-network:
