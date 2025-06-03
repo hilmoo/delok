@@ -1,25 +1,21 @@
 import { ActionIcon, AppShell, Button, Container, Group } from "@mantine/core";
 import { useMutation } from "@tanstack/react-query";
 import { ofetch } from "ofetch";
-import { data, Outlet, redirect, useNavigate } from "react-router";
+import { Outlet, redirect, useNavigate } from "react-router";
 import { useDisconnect } from "wagmi";
 import { SchemaColor } from "~/components/SchemaColor/SchemaColor";
 import { getSession } from "~/lib/sessions";
-import type { Lms } from "~/types/lms";
 import type { Route } from "./+types/app";
 
 export async function loader({ params, request }: Route.LoaderArgs) {
   const session = await getSession(request.headers.get("Cookie"));
 
-
   if (!session.has("address")) {
     return redirect("/");
   }
-
 }
 
 export default function Index({ loaderData }: Route.ComponentProps) {
- 
   const navigate = useNavigate();
   const { disconnect } = useDisconnect();
 

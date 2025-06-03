@@ -1,4 +1,5 @@
 import { Card, Flex, Stack, Text, Title } from "@mantine/core";
+import { useNavigate } from "react-router";
 import type { Lms } from "~/types/lms";
 import classes from "./LmsCards.module.css";
 
@@ -6,6 +7,8 @@ type LmsCardsProps = {
   data: Lms[];
 };
 export function LmsCards({ data }: LmsCardsProps) {
+  const navigate = useNavigate();
+
   const cards = data.map((lms) => (
     <Card
       key={lms.id}
@@ -14,6 +17,9 @@ export function LmsCards({ data }: LmsCardsProps) {
       className={classes.card}
       shadow="none"
       w={"100%"}
+      onClick={() => {
+        navigate(`/app/${lms.id}`);
+      }}
     >
       <Title order={3} lineClamp={1}>
         {lms.name}

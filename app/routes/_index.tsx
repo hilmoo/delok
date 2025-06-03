@@ -3,12 +3,14 @@ import { useMutation } from "@tanstack/react-query";
 import { signMessage } from "@wagmi/core";
 import { ofetch } from "ofetch";
 import { data, redirect, useNavigate } from "react-router";
+import { ClientOnly } from "remix-utils/client-only";
 import { randomUUID } from "uncrypto";
 import { createSiweMessage, generateSiweNonce } from "viem/siwe";
-import { useAccount, useConnect, wagmiConfig } from "wagmi";
+import { useAccount, useConnect } from "wagmi";
 import { commitSession, getSession } from "~/lib/sessions";
 import { storage } from "~/lib/storage";
 import type { LoginPayload } from "~/types/auth";
+import { wagmiConfig } from "~/wagmi-config";
 import TokenBrandedMetamask from "~icons/token-branded/metamask";
 import type { Route } from "./+types/_index";
 
@@ -49,7 +51,7 @@ export default function Index({ loaderData }: Route.ComponentProps) {
       }
       const message = createSiweMessage({
         address: address,
-        chainId: 31337,
+        chainId: 1337,
         domain: "localhost",
         nonce: nonce,
         uri: "http://localhost:3000",
@@ -83,22 +85,26 @@ export default function Index({ loaderData }: Route.ComponentProps) {
       <Title ta="center">Hello World</Title>
 
       <Paper withBorder shadow="sm" p={22} mt={30} radius="md">
-        <Button
-          fullWidth
-          leftSection={<TokenBrandedMetamask />}
-          variant={"light"}
-          onClick={() => {
-            if (isConnected) {
-              return mutationLogin.mutate();
-            }
-            if (!isConnected) {
-              connect({ connector: connectors[0] });
-            }
-          }}
-          loading={mutationLogin.isPending}
-        >
-          {isConnected ? "SIWE" : "Sign in with Metamask"}
-        </Button>
+        <ClientOnly fallback={<div>Loading...</div>}>
+          {() => (
+            <Button
+              fullWidth
+              leftSection={<TokenBrandedMetamask />}
+              variant={"light"}
+              onClick={() => {
+                if (address) {
+                  return mutationLogin.mutate();
+                }
+                if (!address) {
+                  connect({ connector: connectors[0] });
+                }
+              }}
+              loading={mutationLogin.isPending}
+            >
+              {address ? "SIWE" : "Sign in with Metamask"}
+            </Button>
+          )}
+        </ClientOnly>
       </Paper>
     </Container>
   );

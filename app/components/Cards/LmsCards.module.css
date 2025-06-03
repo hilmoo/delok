@@ -4,6 +4,7 @@
     border-color 150ms ease,
     transform 150ms ease;
   border: 1px solid transparent;
+  cursor: pointer;
 
   @mixin hover {
     transform: scale(1.01);

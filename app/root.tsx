@@ -19,7 +19,7 @@ import {
   ScrollRestoration,
 } from "react-router";
 import { WagmiProvider } from "wagmi";
-import { wagmiConfig } from "./wagmi";
+import { wagmiConfig } from "./wagmi-config";
 import { shadcnCssVariableResolver } from "./mantine/cssVariableResolver";
 import { shadcnTheme } from "./mantine/theme";
 
