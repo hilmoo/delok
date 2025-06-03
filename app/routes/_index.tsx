@@ -54,7 +54,7 @@ export default function Index({ loaderData }: Route.ComponentProps) {
         chainId: 1337,
         domain: "localhost",
         nonce: nonce,
-        uri: "http://localhost:3000",
+        uri: "http://localhost:4000",
         version: "1",
         requestId: requestId,
       });

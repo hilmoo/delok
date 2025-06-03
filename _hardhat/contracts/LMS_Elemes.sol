@@ -32,7 +32,7 @@ contract LMS_Elemes {
         emit RegistrationRequested(msg.sender, _lmsid);
     }
 
-    function assignLMSid(address _user, bytes32 _lmsid) external {
+    function assignLMSid(address _user, bytes32 _lmsid) external onlyOracle {
         require(
             _userStatus[_user] == STATUS_REQUESTED,
             "User has not requested registration or is already registered"

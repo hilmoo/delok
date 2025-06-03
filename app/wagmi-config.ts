@@ -6,6 +6,6 @@ export const wagmiConfig = createConfig({
   chains: [localhost],
   connectors: [metaMask()],
   transports: {
-    [localhost.id]: http("http://localhost:8545"),
+    [localhost.id]: http("http://host.docker.internal:8545"),
   },
 });
