@@ -2,8 +2,8 @@
   "name": "hardhat-project",
   "scripts": {
     "compile": "hardhat compile --force",
-    "deploy:lmselemes": "hardhat ignition deploy ./ignition/modules/LMS_Elemes.ts --network localhost",
-    "deploy:certificate": "hardhat ignition deploy ./ignition/modules/Certificate.ts --network localhost"
+    "deploy:lmselemes": "hardhat ignition deploy ./ignition/modules/LMS_Elemes.ts --network hardhathost",
+    "deploy:certificate": "hardhat ignition deploy ./ignition/modules/Certificate.ts --network hardhathost"
   },
   "devDependencies": {
     "@nomicfoundation/hardhat-ignition-viem": "^0.15.11",

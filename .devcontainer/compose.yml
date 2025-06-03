@@ -9,10 +9,11 @@ services:
 
   hardhat:
     image: ghcr.io/hilmoo/hadhat-docker-node:main
-    container_name: delok_hardhat
-    network_mode: service:app
+    container_name: hardhat
+    ports:
+      - "8545:8545"
 
   block-explorer:
     image: ghcr.io/hilmoo/custom-block-explorer:main
-    container_name: delok_block-explorer
+    container_name: block-explorer
     network_mode: service:app
