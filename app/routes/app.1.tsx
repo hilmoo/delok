@@ -1,9 +1,20 @@
-import { Button, Container, Fieldset, Paper, TextInput } from "@mantine/core";
+import {
+  Button,
+  Container,
+  Fieldset,
+  Paper,
+  Text,
+  TextInput,
+} from "@mantine/core";
+import { useMutation } from "@tanstack/react-query";
+import { useState } from "react";
 import { redirect } from "react-router";
+import { fromHex, toHex } from "viem";
+import { useWriteContract } from "wagmi";
 import { getSession } from "~/lib/sessions";
 import type { Route } from "./+types/app._index";
 
-export async function loader({ params, request }: Route.LoaderArgs) {
+export async function loader({ request }: Route.LoaderArgs) {
   const session = await getSession(request.headers.get("Cookie"));
 
   if (!session.has("address")) {
@@ -12,16 +23,58 @@ export async function loader({ params, request }: Route.LoaderArgs) {
 }
 
 export default function Index({ loaderData }: Route.ComponentProps) {
+  const { data: hash, error, isPending, writeContract } = useWriteContract();
+  const [lmsId, setLmsId] = useState("");
+
+  const mutationRegisterContract = useMutation({
+    mutationFn: async () => {
+      if (!lmsId) {
+        throw new Error("LMS ID is required");
+      }
+      const lmsIdHex = toHex(lmsId);
+      console.log("LMS ID in hex:", lmsId);
+      console.log("Registering LMS ID:", lmsIdHex);
+      // writeContract({
+      //   address: lmsElemesAddress[1337],
+      //   abi: lmsElemesAbi,
+      //   functionName: "register",
+      //   args: [toHex(lmsId)],
+      // });
+      console.log(
+        "Write contract called with LMS ID:",
+        fromHex(lmsIdHex, "string"),
+      );
+
+      return Promise.resolve();
+    },
+    onSuccess: () => {
+      console.log("Registration successful");
+    },
+    onError: (error) => {
+      console.error("Registration failed:", error);
+    },
+  });
+
   return (
     <Container py="xl">
       <Paper withBorder shadow="sm" p={22} mt={30} radius="md">
         <Fieldset legend="Register">
-          <TextInput label="Your account Id" />
-          <Button mt="md" fullWidth>
-            submit
+          <TextInput
+            label="Your account Id"
+            description="http://localhost:4000/api/data/id"
+            onChange={(e) => setLmsId(e.currentTarget.value)}
+          />
+          <Button
+            mt="md"
+            fullWidth
+            onClick={() => mutationRegisterContract.mutate()}
+            loading={mutationRegisterContract.isPending}
+          >
+            Register
           </Button>
         </Fieldset>
         <Fieldset legend="Minting Certificate">
+          <Text>Make sure already create 1 course (exam)</Text>
           <Button mt="md" fullWidth>
             Course 1
           </Button>

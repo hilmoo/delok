@@ -12,7 +12,10 @@
 
   "customizations": {
     "vscode": {
-      "extensions": ["esbenp.prettier-vscode", "NomicFoundation.hardhat-solidity"]
+      "extensions": [
+        "esbenp.prettier-vscode",
+        "NomicFoundation.hardhat-solidity"
+      ]
     }
   },
 
