@@ -3,13 +3,14 @@ import {
   Container,
   Fieldset,
   Paper,
+  Space,
   Text,
   TextInput,
 } from "@mantine/core";
 import { useMutation } from "@tanstack/react-query";
 import { useState } from "react";
 import { redirect } from "react-router";
-import { decodeErrorResult, toHex } from "viem";
+import { toHex } from "viem";
 import { BaseError, useWriteContract } from "wagmi";
 import {
   delokCertificateAbi,
@@ -18,6 +19,7 @@ import {
   lmsElemesAddress,
 } from "~/abi";
 import { getSession } from "~/lib/sessions";
+import { publicClient } from "~/wagmi-config";
 import type { Route } from "./+types/app._index";
 
 export async function loader({ request }: Route.LoaderArgs) {
@@ -31,6 +33,8 @@ export async function loader({ request }: Route.LoaderArgs) {
 export default function Index({ loaderData }: Route.ComponentProps) {
   const { data: hash, error, isPending, writeContract } = useWriteContract();
   const [lmsId, setLmsId] = useState("");
+  const [tokenId, setTokenId] = useState("");
+  const [tokenUri, setTokenUri] = useState("");
 
   const mutationRegisterContract = useMutation({
     mutationFn: async () => {
@@ -77,6 +81,28 @@ export default function Index({ loaderData }: Route.ComponentProps) {
     },
   });
 
+  const mutationGetTokenUri = useMutation({
+    mutationFn: async () => {
+      if (!tokenId) {
+        throw new Error("Token URI is required");
+      }
+      const tokenUri = await publicClient.readContract({
+        address: delokCertificateAddress[1337],
+        abi: delokCertificateAbi,
+        functionName: "tokenURI",
+        args: [BigInt(tokenId)],
+      });
+      setTokenUri(tokenUri);
+    },
+    onSuccess: () => {
+      console.log("Token URI retrieval successful");
+    },
+    onError: (error) => {
+      console.error("Token URI retrieval failed:", error);
+      setTokenUri("");
+    },
+  });
+
   return (
     <Container py="xl">
       <Paper withBorder shadow="sm" p={22} mt={30} radius="md">
@@ -106,19 +132,36 @@ export default function Index({ loaderData }: Route.ComponentProps) {
             Course 1
           </Button>
         </Fieldset>
-        {error && (
-          <div>Error: {(error as BaseError).shortMessage || error.message}</div>
-        )}
-        {hash && (
-          <Text c="green" mt="md">
-            Transaction Hash: {hash}
-          </Text>
-        )}
-        {isPending && (
-          <Text c="blue" mt="md">
-            Transaction is pending...
-          </Text>
-        )}
+      </Paper>
+      <Paper withBorder shadow="sm" p={22} mt={30} radius="md">
+        <Fieldset legend="current transaction status">
+          {error && (
+            <div>
+              Error: {(error as BaseError).shortMessage || error.message}
+            </div>
+          )}
+          {hash && (
+            <Text c="green" mt="md">
+              Transaction Hash: {hash}
+            </Text>
+          )}
+          {isPending && (
+            <Text c="blue" mt="md">
+              Transaction is pending...
+            </Text>
+          )}
+        </Fieldset>
+        <Space h="md" />
+        <TextInput
+          label="Get Token URI"
+          onChange={(e) => setTokenId(e.currentTarget.value)}
+        />
+        <Space h="sm" />
+        <Button fullWidth onClick={() => mutationGetTokenUri.mutate()}>
+          Get
+        </Button>
+        <Space h="sm" />
+        <Text>Token URI : {tokenUri || "No token URI retrieved yet."}</Text>
       </Paper>
     </Container>
   );

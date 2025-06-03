@@ -1,12 +1,14 @@
+import { fromHex } from "viem";
 import { lmsElemesAbi, lmsElemesAddress } from "./abi";
 import { client } from "./client";
 
 export async function handleRegistrationRequest(
   userAddress: `0x${string}`,
-  userLmsid: `0x${string}`,
+  userLmsidHex: `0x${string}`,
 ) {
+  const userLmsid = fromHex(userLmsidHex, "string");
   const response = await fetch(
-    `http://host.docker.internal:4000/api/oracle/${userLmsid}/${userAddress}`,
+    `http://host.docker.internal:4000/api/oracle/data/${userLmsid}/${userAddress}`,
     {
       headers: {
         "X-Is-oracle": "1",
@@ -34,7 +36,6 @@ export async function handleRegistrationRequest(
     address: lmsElemesAddress[1337],
     abi: lmsElemesAbi,
     functionName: "assignLMSid",
-    args: [userAddress, userLmsid],
+    args: [userAddress, userLmsidHex],
   });
 }
-

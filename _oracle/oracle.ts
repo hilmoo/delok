@@ -1,6 +1,8 @@
+import { fromHex } from "viem";
 import {
   delokCertificateAbi,
   delokCertificateAddress,
+  ilmsElemesAbi,
   lmsElemesAbi,
   lmsElemesAddress,
 } from "./abi";
@@ -40,8 +42,22 @@ publicClient.watchContractEvent({
         return;
       }
 
+      const userIdHex = await publicClient.readContract({
+        address: lmsElemesAddress[1337],
+        abi: ilmsElemesAbi,
+        functionName: "getLMSid",
+        args: [userAddress],
+      });
+
+      if (!userIdHex) {
+        console.error(`No LMS ID found for user ${userAddress}`);
+        return;
+      }
+
+      const userId = fromHex(userIdHex, "string");
+
       const grade = await getGrade({
-        userId: userAddress,
+        userId,
         examId: courseId.toString(),
       });
 
@@ -53,7 +69,7 @@ publicClient.watchContractEvent({
       }
 
       const pdfCid = await uploadPdfToIpfs({
-        userId: userAddress,
+        userId,
         examId: courseId.toString(),
       });
 

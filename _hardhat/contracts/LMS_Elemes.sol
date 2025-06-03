@@ -56,4 +56,6 @@ contract LMS_Elemes {
 
 interface ILMS_Elemes {
     function IsRegistered(address _user) external view returns (bool);
+
+    function getLMSid(address _user) external view returns (bytes32);
 }
