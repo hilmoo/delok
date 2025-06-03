@@ -9,17 +9,17 @@ services:
 
   hardhat:
     image: ghcr.io/hilmoo/hadhat-docker-node:main
-    container_name: hardhat
+    container_name: delok_hardhat
     network_mode: service:app
 
   block-explorer:
     image: ghcr.io/hilmoo/custom-block-explorer:main
-    container_name: block-explorer
+    container_name: delok_block-explorer
     network_mode: service:app
 
   LMS_elemes:
     image: ghcr.io/hilmoo/elemes:1.1.1
-    container_name: elemes
+    container_name: delok_elemes
     ports:
       - "4000:3000"
     environment:
@@ -29,13 +29,13 @@ services:
       db_elemes:
         condition: service_healthy
     networks:
-      - elemes-network
+      - delok_elemes-network
 
   db_elemes:
     image: postgres:17-alpine
-    container_name: elemes-db
+    container_name: delok_elemes-db
     volumes:
-      - db-elemes:/var/lib/postgresql/data
+      - delok_db-elemes:/var/lib/postgresql/data
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U postgres"]
       interval: 30s
@@ -46,10 +46,10 @@ services:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_DB: ${POSTGRES_DB}
     networks:
-      - elemes-network
+      - delok_elemes-network
 
 volumes:
-  db-elemes:
+  delok_db-elemes:
 
 networks:
-  elemes-network:
+  delok_elemes-network:
