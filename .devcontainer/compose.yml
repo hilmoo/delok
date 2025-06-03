@@ -18,7 +18,7 @@ services:
     network_mode: service:app
 
   LMS_elemes:
-    image: ghcr.io/hilmoo/elemes:1.0.0
+    image: ghcr.io/hilmoo/elemes:1.0.1
     container_name: elemes
     ports:
       - "4000:3000"
