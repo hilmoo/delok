@@ -21,7 +21,7 @@ contract DelokCertificate is
     mapping(address => mapping(uint256 => bool)) private hasRequested_Elemes;
     address public oracle;
     event TokenMinted_Elemes(
-        uint256 tokenId,
+        uint256 indexed tokenId,
         address indexed user,
         uint256 indexed courseId
     );
@@ -38,10 +38,10 @@ contract DelokCertificate is
         _disableInitializers();
     }
 
-    function initialize(address initialOwner, address _oracle)
-        public
-        initializer
-    {
+    function initialize(
+        address initialOwner,
+        address _oracle
+    ) public initializer {
         __ERC721_init("DelokCert", "DLC");
         __ERC721URIStorage_init();
         __Ownable_init(initialOwner);
@@ -54,15 +54,14 @@ contract DelokCertificate is
         oracle = _oracle;
     }
 
-    function setContractLMS_Elemes(address _lmsElemesAddress)
-        external
-        onlyOwner
-    {
+    function setContractLMS_Elemes(
+        address _lmsElemesAddress
+    ) external onlyOwner {
         require(_lmsElemesAddress != address(0), "Zero address");
         lmsElemes = ILMS_Elemes(_lmsElemesAddress);
     }
 
-    function requestMintCertificate_Elemes(uint256 courseId) public {
+    function requestMintCertificate_Elemes(uint256 courseId) external {
         require(oracle != address(0), "Oracle undefined");
         require(address(lmsElemes) != address(0), "lmsElemes undefined");
         require(
@@ -85,7 +84,7 @@ contract DelokCertificate is
         string memory _tokenURI,
         address _to,
         uint256 courseId
-    ) public onlyOracle returns (uint256) {
+    ) external onlyOracle returns (uint256) {
         require(oracle != address(0), "Oracle undefined");
         require(address(lmsElemes) != address(0), "lmsElemes undefined");
         require(
@@ -105,7 +104,9 @@ contract DelokCertificate is
         return tokenId;
     }
 
-    function tokenURI(uint256 tokenId)
+    function tokenURI(
+        uint256 tokenId
+    )
         public
         view
         override(ERC721Upgradeable, ERC721URIStorageUpgradeable)
@@ -114,7 +115,9 @@ contract DelokCertificate is
         return super.tokenURI(tokenId);
     }
 
-    function supportsInterface(bytes4 interfaceId)
+    function supportsInterface(
+        bytes4 interfaceId
+    )
         public
         view
         override(ERC721Upgradeable, ERC721URIStorageUpgradeable)
@@ -123,11 +126,9 @@ contract DelokCertificate is
         return super.supportsInterface(interfaceId);
     }
 
-    function _authorizeUpgrade(address newImplementation)
-        internal
-        override
-        onlyOwner
-    {}
+    function _authorizeUpgrade(
+        address newImplementation
+    ) internal override onlyOwner {}
 
     function AddressLMSElemes() public view returns (address) {
         return address(lmsElemes);

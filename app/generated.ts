@@ -251,7 +251,7 @@ export const delokCertificateAbi = [
         name: 'tokenId',
         internalType: 'uint256',
         type: 'uint256',
-        indexed: false,
+        indexed: true,
       },
       { name: 'user', internalType: 'address', type: 'address', indexed: true },
       {
@@ -2016,7 +2016,18 @@ export const lmsElemesAbi = [
     type: 'event',
     anonymous: false,
     inputs: [
-      { name: 'user', internalType: 'address', type: 'address', indexed: true },
+      {
+        name: 'user',
+        internalType: 'address',
+        type: 'address',
+        indexed: false,
+      },
+      {
+        name: 'lmsid',
+        internalType: 'bytes32',
+        type: 'bytes32',
+        indexed: true,
+      },
     ],
     name: 'RegistrationRequested',
   },
@@ -2029,7 +2040,7 @@ export const lmsElemesAbi = [
         name: 'lmsid',
         internalType: 'bytes32',
         type: 'bytes32',
-        indexed: false,
+        indexed: true,
       },
     ],
     name: 'UserRegistered',
@@ -2044,8 +2055,8 @@ export const lmsElemesAbi = [
   {
     type: 'function',
     inputs: [
-      { name: 'user', internalType: 'address', type: 'address' },
-      { name: 'lmsid', internalType: 'bytes32', type: 'bytes32' },
+      { name: '_user', internalType: 'address', type: 'address' },
+      { name: '_lmsid', internalType: 'bytes32', type: 'bytes32' },
     ],
     name: 'assignLMSid',
     outputs: [],
@@ -2067,7 +2078,7 @@ export const lmsElemesAbi = [
   },
   {
     type: 'function',
-    inputs: [],
+    inputs: [{ name: '_lmsid', internalType: 'bytes32', type: 'bytes32' }],
     name: 'register',
     outputs: [],
     stateMutability: 'nonpayable',
