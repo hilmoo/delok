@@ -2,7 +2,6 @@ services:
   delok:
     image: ghcr.io/hilmoo/delok:1.0.1
     container_name: delok
-    command: sleep infinity
     environment:
       - VITE_ISPROD=true
       - VITE_ELEMES_URL=${VITE_ELEMES_URL}
