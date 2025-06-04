@@ -192,6 +192,9 @@ export default function Index({ loaderData }: Route.ComponentProps) {
           </Button>
         </Fieldset>
         <Space h="md" />
+        <Text size="sm" c="dimmed">
+          Dont mint before actually finishing the exam, otherwise you will not able to mint again
+        </Text>
         {examData?.map((exam) => (
           <div key={exam.id}>
             <Paper withBorder shadow="sm" px={"md"} py={"sm"} radius="md">

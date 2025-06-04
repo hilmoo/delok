@@ -1,6 +1,6 @@
 services:
   delok:
-    image: ghcr.io/hilmoo/delok:1.0.0
+    image: ghcr.io/hilmoo/delok:1.0.1
     container_name: delok
     command: sleep infinity
     environment:
