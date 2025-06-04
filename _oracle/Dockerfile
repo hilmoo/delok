@@ -2,6 +2,7 @@ FROM node:22-alpine AS builder
 
 WORKDIR /oracle
 COPY . .
+RUN npm install
 RUN npm run build
 
 FROM node:22-alpine AS dev
