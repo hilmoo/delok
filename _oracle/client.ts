@@ -7,9 +7,8 @@ import {
 import { privateKeyToAccount } from "viem/accounts";
 import { localhost } from "viem/chains";
 
-const account = privateKeyToAccount(
-  "0xdf57089febbacf7ba0bc227dafbffa9fc08a93fdc68e1e42411a14efcf23656e",
-);
+const privateKey = process.env.ORACLE_PRIVATE_KEY as `0x${string}`; 
+const account = privateKeyToAccount(privateKey);
 
 export const client = createWalletClient({
   account,

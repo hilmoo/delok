@@ -1,19 +1,20 @@
 services:
-  app:
-    build:
-      context: .
-      dockerfile: Dockerfile
+  delok:
+    image: ghcr.io/hilmoo/delok:latest
+    container_name: delok
     command: sleep infinity
-    env_file:
-      - .env
+    environment:
+      - VITE_ELEMES_URL=${VITE_ELEMES_URL}
+      - ELEMES_URL_DOCKER=${ELEMES_URL_DOCKER}
+      - NODE_RPC_URL=${NODE_RPC_URL}
+      - VITE_NODE_RPC_URL=${VITE_NODE_RPC_URL}
+      - VITE_NODE_RPC_URL_CLIENT=${VITE_NODE_RPC_URL_CLIENT}
     networks:
       - delok_elemes-app
 
   oracle:
+    image: ghcr.io/hilmoo/delok-oracle:latest
     container_name: delok_oracle
-    build:
-      context: ../_oracle/
-      dockerfile: Dockerfile
     environment:
       - ELEMES_URL_DOCKER=${ELEMES_URL_DOCKER}
       - KUBO_RPC_DOCKER=${KUBO_RPC_DOCKER}
@@ -28,12 +29,6 @@ services:
     container_name: delok_hardhat
     ports:
       - "8545:8545"
-
-  block-explorer:
-    image: ghcr.io/hilmoo/custom-block-explorer:main
-    container_name: delok_block-explorer
-    ports:
-      - "4000:3000"
 
   kubo:
     image: ipfs/kubo:v0.35.0
