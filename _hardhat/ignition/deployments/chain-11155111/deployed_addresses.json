@@ -1,0 +1,6 @@
+{
+  "LMSElemesModule#LMS_Elemes": "0x497aF9cf993976cabfb65159cAe332f8eaf88a2E",
+  "ProxyModule#DelokCertificate": "0xA1841d4C9d127F88122Ccad39d1a0ED20491Ca23",
+  "ProxyModule#ERC1967Proxy": "0xDe7e2111F0F93168A44d8003A4ED0E913b644dA5",
+  "MyContractModule#DelokCertificate": "0xDe7e2111F0F93168A44d8003A4ED0E913b644dA5"
+}

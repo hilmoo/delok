@@ -37,7 +37,8 @@ export const contextUpgradeableAbi = [
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /**
- *
+ * -
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xDe7e2111F0F93168A44d8003A4ED0E913b644dA5)
  */
 export const delokCertificateAbi = [
   { type: 'constructor', inputs: [], stateMutability: 'nonpayable' },
@@ -519,14 +520,17 @@ export const delokCertificateAbi = [
 ] as const
 
 /**
- *
+ * -
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xDe7e2111F0F93168A44d8003A4ED0E913b644dA5)
  */
 export const delokCertificateAddress = {
   1337: '0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0',
+  11155111: '0xDe7e2111F0F93168A44d8003A4ED0E913b644dA5',
 } as const
 
 /**
- *
+ * -
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xDe7e2111F0F93168A44d8003A4ED0E913b644dA5)
  */
 export const delokCertificateConfig = {
   address: delokCertificateAddress,
@@ -2011,7 +2015,8 @@ export const initializableAbi = [
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /**
- *
+ * -
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x497aF9cf993976cabfb65159cAe332f8eaf88a2E)
  */
 export const lmsElemesAbi = [
   {
@@ -2093,14 +2098,17 @@ export const lmsElemesAbi = [
 ] as const
 
 /**
- *
+ * -
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x497aF9cf993976cabfb65159cAe332f8eaf88a2E)
  */
 export const lmsElemesAddress = {
   1337: '0x5FbDB2315678afecb367f032d93F642f64180aa3',
+  11155111: '0x497aF9cf993976cabfb65159cAe332f8eaf88a2E',
 } as const
 
 /**
- *
+ * -
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x497aF9cf993976cabfb65159cAe332f8eaf88a2E)
  */
 export const lmsElemesConfig = {
   address: lmsElemesAddress,
