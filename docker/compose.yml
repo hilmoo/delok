@@ -1,6 +1,6 @@
 services:
   delok:
-    image: ghcr.io/hilmoo/delok:latest
+    image: ghcr.io/hilmoo/delok:1.0.0
     container_name: delok
     command: sleep infinity
     environment:
@@ -13,7 +13,7 @@ services:
       - delok_elemes-app
 
   oracle:
-    image: ghcr.io/hilmoo/delok-oracle:latest
+    image: ghcr.io/hilmoo/delokoracle:1.0.0
     container_name: delok_oracle
     environment:
       - ELEMES_URL_DOCKER=${ELEMES_URL_DOCKER}
