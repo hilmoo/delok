@@ -1,7 +1,7 @@
 import { getPublicClient } from "@wagmi/core";
 import { data, redirect } from "react-router";
 import { parseSiweMessage } from "viem/siwe";
-import { wagmiConfig } from "~/wagmi-config";
+import { chainId, wagmiConfig } from "~/wagmi-config";
 import { commitSession, getSession } from "~/lib/sessions";
 import { storage } from "~/lib/storage";
 import type { LoginPayload } from "~/types/auth";
@@ -38,7 +38,7 @@ export async function action({ request }: Route.ActionArgs) {
     return data({ success: false, message: "Invalid signature" });
   }
 
-  if (parsedMessage.chainId !== 1337) {
+  if (parsedMessage.chainId !== chainId) {
     return data({ success: false, message: "Invalid chain ID" });
   }
 

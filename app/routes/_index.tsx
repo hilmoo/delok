@@ -11,7 +11,7 @@ import Logo from "~/components/logo";
 import { commitSession, getSession } from "~/lib/sessions";
 import { storage } from "~/lib/storage";
 import type { LoginPayload } from "~/types/auth";
-import { wagmiConfig } from "~/wagmi-config";
+import { chainId, wagmiConfig } from "~/wagmi-config";
 import TokenBrandedMetamask from "~icons/token-branded/metamask";
 import type { Route } from "./+types/_index";
 
@@ -41,7 +41,7 @@ export async function loader({ params, request }: Route.LoaderArgs) {
 
 export default function Index({ loaderData }: Route.ComponentProps) {
   const { requestId, nonce } = loaderData;
-  const { address, isConnected } = useAccount();
+  const { address } = useAccount();
   const { connectors, connect } = useConnect();
   const navigate = useNavigate();
 
@@ -52,7 +52,7 @@ export default function Index({ loaderData }: Route.ComponentProps) {
       }
       const message = createSiweMessage({
         address: address,
-        chainId: 1337,
+        chainId: chainId,
         domain: "localhost",
         nonce: nonce,
         uri: import.meta.env.VITE_ELEMES_URL,

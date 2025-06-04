@@ -8,13 +8,14 @@ import {
   Space,
   Text,
   TextInput,
+  Title,
 } from "@mantine/core";
 import { useMutation } from "@tanstack/react-query";
 import { ofetch } from "ofetch";
 import { useState } from "react";
 import { redirect } from "react-router";
-import { toHex } from "viem";
-import { BaseError, useWriteContract } from "wagmi";
+import { fromHex, toHex } from "viem";
+import { BaseError, useAccount, useWriteContract } from "wagmi";
 import {
   delokCertificateAbi,
   delokCertificateAddress,
@@ -23,7 +24,7 @@ import {
 } from "~/abi";
 import { getSession } from "~/lib/sessions";
 import type { ExamData } from "~/types/lms";
-import { publicClient } from "~/wagmi-config";
+import { chainId, publicClient } from "~/wagmi-config";
 import type { Route } from "./+types/app.1";
 
 export async function loader({ request }: Route.LoaderArgs) {
@@ -47,6 +48,9 @@ export default function Index({ loaderData }: Route.ComponentProps) {
   const [lmsId, setLmsId] = useState("");
   const [tokenId, setTokenId] = useState("");
   const [tokenUri, setTokenUri] = useState("");
+  const { address } = useAccount();
+  const [successReg, setSuccessReg] = useState("");
+  const [successMint, setSuccessMint] = useState("");
 
   const mutationRegisterContract = useMutation({
     mutationFn: async () => {
@@ -54,10 +58,8 @@ export default function Index({ loaderData }: Route.ComponentProps) {
         throw new Error("LMS ID is required");
       }
       const lmsIdHex = toHex(lmsId);
-      console.log("LMS ID in hex:", lmsId);
-      console.log("Registering LMS ID:", lmsIdHex);
-      const result = await writeContract({
-        address: lmsElemesAddress[1337],
+      const result = writeContract({
+        address: lmsElemesAddress[chainId],
         abi: lmsElemesAbi,
         functionName: "register",
         args: [toHex(lmsId)],
@@ -78,7 +80,7 @@ export default function Index({ loaderData }: Route.ComponentProps) {
       }
       const courseId256 = BigInt(courseId);
       writeContract({
-        address: delokCertificateAddress[1337],
+        address: delokCertificateAddress[chainId],
         abi: delokCertificateAbi,
         functionName: "requestMintCertificate_Elemes",
         args: [courseId256],
@@ -98,9 +100,8 @@ export default function Index({ loaderData }: Route.ComponentProps) {
       if (!tokenId) {
         throw new Error("Token URI is required");
       }
-      console.log("Retrieving token URI for token ID:", tokenId);
       const tokenUri = await publicClient.readContract({
-        address: delokCertificateAddress[1337],
+        address: delokCertificateAddress[chainId],
         abi: delokCertificateAbi,
         functionName: "tokenURI",
         args: [BigInt(tokenId)],
@@ -113,6 +114,62 @@ export default function Index({ loaderData }: Route.ComponentProps) {
     onError: (error) => {
       console.error("Token URI retrieval failed:", error);
       setTokenUri("");
+    },
+  });
+
+  publicClient.watchContractEvent({
+    address: lmsElemesAddress[chainId],
+    abi: lmsElemesAbi,
+    eventName: "UserRegistered",
+    onLogs: (logs) => {
+      logs.forEach(async (log) => {
+        const userAddress = log.args.user;
+        const userLmsid = log.args.lmsid;
+        if (!userAddress || !userLmsid) {
+          console.error("Invalid log data:", log);
+          return;
+        }
+        if (userAddress == address) {
+          console.log(
+            `User ${userAddress} registered with LMS ID ${fromHex(userLmsid, "string")}`,
+          );
+          setSuccessReg(
+            `User ${userAddress} registered with LMS ID ${fromHex(userLmsid, "string")}`,
+          );
+        }
+      });
+    },
+  });
+
+  publicClient.watchContractEvent({
+    address: delokCertificateAddress[chainId],
+    abi: delokCertificateAbi,
+    eventName: "TokenMinted_Elemes",
+    onLogs: (logs) => {
+      logs.forEach(async (log) => {
+        const userAddress = log.args.user;
+        const tokenId = log.args.tokenId;
+        const courseId = log.args.courseId;
+        console.log(
+          `TokenMinted_Elemes event: user=${userAddress}, tokenId=${tokenId}, courseId=${courseId}`,
+        );
+        if (
+          userAddress === undefined ||
+          tokenId === undefined ||
+          courseId === undefined
+        ) {
+          console.error("Invalid log data:", log);
+          return;
+        }
+        if (userAddress == address) {
+          console.log(
+            `Successfully minted token (id: ${tokenId}) for user ${userAddress} with LMS for course ID ${courseId}`,
+          );
+          setSuccessMint(
+            `Successfully minted token (id: ${tokenId}) for user ${userAddress} with LMS for course ID ${courseId}`,
+          );
+        }
+      });
     },
   });
 
@@ -154,24 +211,51 @@ export default function Index({ loaderData }: Route.ComponentProps) {
         ))}
       </Paper>
       <Paper withBorder shadow="sm" p={22} mt={30} radius="md">
-        <Fieldset legend="current transaction status">
-          {error && (
-            <div>
+        <Title order={3}>Transaction Status</Title>
+        <Text size="sm" c="dimmed">
+          event updated every 5 minutes
+        </Text>
+        {error && (
+          <>
+            <Text c={"red"}>
               Error: {(error as BaseError).shortMessage || error.message}
-            </div>
-          )}
-          {hash && (
+            </Text>
+            <Divider h="sm" />
+          </>
+        )}
+        {hash && (
+          <>
             <Text c="green" mt="md">
               Transaction Hash: {hash}
             </Text>
-          )}
-          {isPending && (
+            <Divider h="sm" />
+          </>
+        )}
+        {isPending && (
+          <>
             <Text c="blue" mt="md">
               Transaction is pending...
             </Text>
-          )}
-        </Fieldset>
-        <Space h="md" />
+            <Divider h="sm" />
+          </>
+        )}
+        {successReg && (
+          <>
+            <Text c="green" mt="md">
+              {successReg}
+            </Text>
+            <Divider h="sm" />
+          </>
+        )}
+        {successMint && (
+          <>
+            <Text c="green" mt="md">
+              {successMint}
+            </Text>
+            <Divider h="sm" />
+          </>
+        )}
+        <Divider h="md" />
         <TextInput
           label="Get Token URI"
           onChange={(e) => setTokenId(e.currentTarget.value)}
@@ -181,7 +265,7 @@ export default function Index({ loaderData }: Route.ComponentProps) {
           Get
         </Button>
         <Space h="sm" />
-        <Text>Token URI : {tokenUri || "No token URI retrieved yet."}</Text>
+        {tokenUri && <Text>Token URI : {tokenUri}</Text>}
       </Paper>
     </Container>
   );

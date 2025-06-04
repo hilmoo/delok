@@ -1,5 +1,5 @@
 import { Container, Paper } from "@mantine/core";
-import { data, redirect, useNavigate } from "react-router";
+import { data, redirect } from "react-router";
 import { LmsCards } from "~/components/Cards/LmsCards";
 import { getSession } from "~/lib/sessions";
 import type { Lms } from "~/types/lms";
@@ -25,7 +25,6 @@ export async function loader({ params, request }: Route.LoaderArgs) {
 }
 
 export default function Index({ loaderData }: Route.ComponentProps) {
-  const navigate = useNavigate();
   const { lms } = loaderData;
 
   return (

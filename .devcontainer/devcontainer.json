@@ -19,7 +19,7 @@
     }
   },
 
-  "forwardPorts": [5173, 3000],
+  "forwardPorts": [5173],
 
   "postCreateCommand": "bash ./.devcontainer/postCreateCommand.sh",
 

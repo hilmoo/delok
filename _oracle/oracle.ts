@@ -9,9 +9,10 @@ import {
 import { client, publicClient } from "./client";
 import { getGrade, uploadFinalCid, uploadPdfToIpfs } from "./utils-cert";
 import { handleRegistrationRequest } from "./utils-register";
+import { chainId } from "./client";
 
 publicClient.watchContractEvent({
-  address: lmsElemesAddress[1337],
+  address: lmsElemesAddress[chainId],
   abi: lmsElemesAbi,
   eventName: "RegistrationRequested",
   onLogs: (logs) => {
@@ -29,7 +30,7 @@ publicClient.watchContractEvent({
 });
 
 publicClient.watchContractEvent({
-  address: delokCertificateAddress[1337],
+  address: delokCertificateAddress[chainId],
   abi: delokCertificateAbi,
   eventName: "MintRequested_Elemes",
   onLogs: (logs) => {
@@ -43,7 +44,7 @@ publicClient.watchContractEvent({
       }
 
       const userIdHex = await publicClient.readContract({
-        address: lmsElemesAddress[1337],
+        address: lmsElemesAddress[chainId],
         abi: ilmsElemesAbi,
         functionName: "getLMSid",
         args: [userAddress],
@@ -85,7 +86,7 @@ publicClient.watchContractEvent({
       const finalCid = await uploadFinalCid(finalData);
 
       client.writeContract({
-        address: delokCertificateAddress[1337],
+        address: delokCertificateAddress[chainId],
         abi: delokCertificateAbi,
         functionName: "mintCertificate_Elemes",
         args: [finalCid, userAddress, courseId],

@@ -14,6 +14,7 @@ services:
     build:
       context: ../_oracle/
       dockerfile: Dockerfile
+      target: dev
     environment:
       - ELEMES_URL_DOCKER=${ELEMES_URL_DOCKER}
       - KUBO_RPC_DOCKER=${KUBO_RPC_DOCKER}

@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "build": "esbuild oracle.ts --bundle --outfile=dist/index.js --platform=node --format=esm"
+    "build": "esbuild oracle.ts --bundle --outfile=dist/index.js --platform=node --format=cjs"
   },
   "dependencies": {
     "kubo-rpc-client": "^5.1.0",

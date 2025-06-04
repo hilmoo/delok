@@ -20,3 +20,6 @@ export const publicClient = createPublicClient({
   chain: localhost,
   transport: http(process.env.NODE_RPC_URL),
 });
+
+const isProduction = process.env.NODE_ENV == "production";
+export const chainId = isProduction ? 11155111 : 1337;

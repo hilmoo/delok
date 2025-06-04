@@ -4,11 +4,11 @@ services:
     container_name: delok
     command: sleep infinity
     environment:
+      - VITE_ISPROD=true
       - VITE_ELEMES_URL=${VITE_ELEMES_URL}
       - ELEMES_URL_DOCKER=${ELEMES_URL_DOCKER}
       - NODE_RPC_URL=${NODE_RPC_URL}
       - VITE_NODE_RPC_URL=${VITE_NODE_RPC_URL}
-      - VITE_NODE_RPC_URL_CLIENT=${VITE_NODE_RPC_URL_CLIENT}
     networks:
       - delok_elemes-app
 

@@ -1,6 +1,7 @@
 import { fromHex } from "viem";
 import { lmsElemesAbi, lmsElemesAddress } from "./abi";
 import { client } from "./client";
+import { chainId } from "./client";
 
 export async function handleRegistrationRequest(
   userAddress: `0x${string}`,
@@ -33,7 +34,7 @@ export async function handleRegistrationRequest(
   }
 
   client.writeContract({
-    address: lmsElemesAddress[1337],
+    address: lmsElemesAddress[chainId],
     abi: lmsElemesAbi,
     functionName: "assignLMSid",
     args: [userAddress, userLmsidHex],
