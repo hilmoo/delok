@@ -6,10 +6,9 @@ import {
   lmsElemesAbi,
   lmsElemesAddress,
 } from "./abi";
-import { client, publicClient } from "./client";
+import { chainId, client, publicClient } from "./client";
 import { getGrade, uploadFinalCid, uploadPdfToIpfs } from "./utils-cert";
 import { handleRegistrationRequest } from "./utils-register";
-import { chainId } from "./client";
 
 publicClient.watchContractEvent({
   address: lmsElemesAddress[chainId],
@@ -25,6 +24,9 @@ publicClient.watchContractEvent({
         return;
       }
       await handleRegistrationRequest(userAddress, userLmsid);
+      console.log(
+        `Registration request handled for user: ${userAddress}, LMS ID: ${userLmsid}`,
+      );
     });
   },
 });
@@ -91,6 +93,10 @@ publicClient.watchContractEvent({
         functionName: "mintCertificate_Elemes",
         args: [finalCid, userAddress, courseId],
       });
+
+      console.log(
+        `Certificate minting requested for user: ${userAddress}, course ID: ${courseId}, LMS ID: ${userId}`,
+      );
     });
   },
 });
