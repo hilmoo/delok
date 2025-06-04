@@ -16,7 +16,7 @@ export async function loader({ params, request }: Route.LoaderArgs) {
     {
       id: 1,
       name: "ELEMES",
-      url: "http://localhost:4000",
+      url: import.meta.env.VITE_ELEMES_URL,
     },
   ];
   return data({

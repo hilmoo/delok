@@ -1,4 +1,4 @@
-import { Button, Container, Paper, Title } from "@mantine/core";
+import { ActionIcon, Button, Center, Container, Paper } from "@mantine/core";
 import { useMutation } from "@tanstack/react-query";
 import { signMessage } from "@wagmi/core";
 import { ofetch } from "ofetch";
@@ -7,6 +7,7 @@ import { ClientOnly } from "remix-utils/client-only";
 import { randomUUID } from "uncrypto";
 import { createSiweMessage, generateSiweNonce } from "viem/siwe";
 import { useAccount, useConnect } from "wagmi";
+import Logo from "~/components/logo";
 import { commitSession, getSession } from "~/lib/sessions";
 import { storage } from "~/lib/storage";
 import type { LoginPayload } from "~/types/auth";
@@ -54,7 +55,7 @@ export default function Index({ loaderData }: Route.ComponentProps) {
         chainId: 1337,
         domain: "localhost",
         nonce: nonce,
-        uri: "http://localhost:4000",
+        uri: import.meta.env.VITE_ELEMES_URL,
         version: "1",
         requestId: requestId,
       });
@@ -82,7 +83,16 @@ export default function Index({ loaderData }: Route.ComponentProps) {
 
   return (
     <Container size={420} my={40}>
-      <Title ta="center">Hello World</Title>
+      <Center>
+        <ActionIcon
+          size={100}
+          variant="transparent"
+          aria-label="Logo"
+          onClick={() => navigate("/")}
+        >
+          <Logo />
+        </ActionIcon>
+      </Center>
 
       <Paper withBorder shadow="sm" p={22} mt={30} radius="md">
         <ClientOnly fallback={<div>Loading...</div>}>

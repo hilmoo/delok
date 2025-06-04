@@ -8,7 +8,7 @@ export async function handleRegistrationRequest(
 ) {
   const userLmsid = fromHex(userLmsidHex, "string");
   const response = await fetch(
-    `http://host.docker.internal:4000/api/oracle/data/${userLmsid}/${userAddress}`,
+    `${process.env.ELEMES_URL_DOCKER}/api/oracle/data/${userLmsid}/${userAddress}`,
     {
       headers: {
         "X-Is-oracle": "1",

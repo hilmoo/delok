@@ -7,11 +7,13 @@ export const wagmiConfig = createConfig({
   chains: [localhost],
   connectors: [metaMask()],
   transports: {
-    [localhost.id]: http("http://host.docker.internal:8545"),
+    [localhost.id]: http(
+      import.meta.env.VITE_NODE_RPC_URL || process.env.NODE_RPC_URL,
+    ),
   },
 });
 
 export const publicClient = createPublicClient({
   chain: localhost,
-  transport: http("http://host.docker.internal:8545"),
+  transport: http(import.meta.env.VITE_NODE_RPC_URL_CLIENT),
 });

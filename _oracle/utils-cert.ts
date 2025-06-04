@@ -6,11 +6,11 @@ interface UploadProps {
 }
 export async function uploadPdfToIpfs({ userId, examId }: UploadProps) {
   const client = createKuboRPCClient({
-    url: "http://host.docker.internal:5001/",
+    url: process.env.KUBO_RPC_DOCKER,
   });
 
   const response = await fetch(
-    `http://host.docker.internal:4000/api/oracle/cert/${userId}/${examId}`,
+    `${process.env.ELEMES_URL_DOCKER}/api/oracle/cert/${userId}/${examId}`,
     {
       headers: {
         "X-Is-oracle": "1",
@@ -62,7 +62,7 @@ export async function getGrade({
   examId,
 }: GetGradeProps): Promise<GradeResponse | null> {
   const response = await fetch(
-    `http://host.docker.internal:4000/api/oracle/data/${userId}/grade/${examId}`,
+    `${process.env.ELEMES_URL_DOCKER}/api/oracle/data/${userId}/grade/${examId}`,
     {
       headers: {
         "X-Is-oracle": "1",
@@ -98,7 +98,7 @@ interface UploadFinalCidProps {
 }
 export async function uploadFinalCid(data: UploadFinalCidProps) {
   const client = createKuboRPCClient({
-    url: "http://host.docker.internal:5001/",
+    url: process.env.KUBO_RPC_DOCKER,
   });
 
   const { cid } = await client.add({

@@ -14,10 +14,10 @@ const account = privateKeyToAccount(
 export const client = createWalletClient({
   account,
   chain: localhost,
-  transport: http("http://host.docker.internal:8545"),
+  transport: http(process.env.NODE_RPC_URL),
 }).extend(publicActions);
 
 export const publicClient = createPublicClient({
   chain: localhost,
-  transport: http("http://host.docker.internal:8545"),
+  transport: http(process.env.NODE_RPC_URL),
 });

@@ -44,7 +44,7 @@ export default function Index({ loaderData }: Route.ComponentProps) {
       const lmsIdHex = toHex(lmsId);
       console.log("LMS ID in hex:", lmsId);
       console.log("Registering LMS ID:", lmsIdHex);
-      writeContract({
+      const result = await writeContract({
         address: lmsElemesAddress[1337],
         abi: lmsElemesAbi,
         functionName: "register",
@@ -86,6 +86,7 @@ export default function Index({ loaderData }: Route.ComponentProps) {
       if (!tokenId) {
         throw new Error("Token URI is required");
       }
+      console.log("Retrieving token URI for token ID:", tokenId);
       const tokenUri = await publicClient.readContract({
         address: delokCertificateAddress[1337],
         abi: delokCertificateAbi,
@@ -109,7 +110,7 @@ export default function Index({ loaderData }: Route.ComponentProps) {
         <Fieldset legend="Register">
           <TextInput
             label="Your account Id"
-            description="http://localhost:4000/api/data/id"
+            description={`${import.meta.env.VITE_ELEMES_URL}/api/data/id`}
             onChange={(e) => setLmsId(e.currentTarget.value)}
           />
           <Button

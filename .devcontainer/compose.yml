@@ -8,24 +8,33 @@ services:
       - .env
 
   oracle:
+    container_name: delok_oracle
     build:
       context: ../_oracle/
       dockerfile: Dockerfile
+    environment:
+      - ELEMES_URL_DOCKER=${ELEMES_URL_DOCKER}
+      - KUBO_RPC_DOCKER=${KUBO_RPC_DOCKER}
+      - NODE_RPC_URL=${NODE_RPC_URL}
+    networks:
+      - delok_elemes-oracle
+      - delok_kubo-oracle
 
   hardhat:
     image: ghcr.io/hilmoo/hadhat-docker-node:main
-    container_name: hardhat
+    container_name: delok_hardhat
     ports:
       - "8545:8545"
 
   block-explorer:
     image: ghcr.io/hilmoo/custom-block-explorer:main
-    container_name: block-explorer
-    network_mode: service:app
+    container_name: delok_block-explorer
+    ports:
+      - "4000:3000"
 
   kubo:
     image: ipfs/kubo:v0.35.0
-    container_name: ipfs_host
+    container_name: delok_ipfs_host
     volumes:
       - delok_ipfs_staging:/export
       - delok_ipfs_data:/data/ipfs
@@ -34,12 +43,14 @@ services:
       - 4001:4001/udp
       - 127.0.0.1:8080:8080
       - 127.0.0.1:5001:5001
+    networks:
+      - delok_kubo-oracle
 
   LMS_elemes:
     image: ghcr.io/hilmoo/elemes:1.2.0
     container_name: delok_elemes
     ports:
-      - "4000:3000"
+      - "3000:3000"
     environment:
       - DATABASE_URL=${DATABASE_URL}
       - BETTER_AUTH_SECRET=${BETTER_AUTH_SECRET}
@@ -48,6 +59,7 @@ services:
         condition: service_healthy
     networks:
       - delok_elemes-network
+      - delok_elemes-oracle
 
   db_elemes:
     image: postgres:17-alpine
@@ -73,3 +85,5 @@ volumes:
 
 networks:
   delok_elemes-network:
+  delok_elemes-oracle:
+  delok_kubo-oracle:
