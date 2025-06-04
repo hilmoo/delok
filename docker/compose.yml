@@ -23,12 +23,6 @@ services:
       - delok_elemes-oracle
       - delok_kubo-oracle
 
-  hardhat:
-    image: ghcr.io/hilmoo/hadhat-docker-node:main
-    container_name: delok_hardhat
-    ports:
-      - "8545:8545"
-
   kubo:
     image: ipfs/kubo:v0.35.0
     container_name: delok_ipfs_host
