@@ -10,7 +10,7 @@ on:
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: delokoracle
+  IMAGE_NAME: hilmoo/delokoracle
 
 jobs:
   build-and-push-image:
