@@ -3,13 +3,13 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "watch": "tsx oracle.ts"
+    "build": "esbuild oracle.ts --bundle --outfile=dist/index.js --platform=node --format=esm"
   },
   "dependencies": {
     "kubo-rpc-client": "^5.1.0",
     "viem": "^2.30.6"
   },
   "devDependencies": {
-    "tsx": "^4.19.4"
+    "esbuild": "0.25.5"
   }
 }

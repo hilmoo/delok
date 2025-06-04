@@ -1,7 +1,11 @@
-FROM node:22-alpine
+FROM node:22-alpine AS builder
 
+WORKDIR /oracle
 COPY . .
+RUN npm run build
 
-RUN npm install
 
-CMD ["npm", "run", "watch"]
+FROM gcr.io/distroless/nodejs22-debian12
+
+COPY --from=builder /oracle/dist /app
+CMD ["/app/index.js"]
