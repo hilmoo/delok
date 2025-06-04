@@ -2,16 +2,15 @@ import { createPublicClient } from "viem";
 import { createConfig, http } from "wagmi";
 import { localhost, sepolia } from "wagmi/chains";
 import { metaMask } from "wagmi/connectors";
+import { envClient } from "./envClient";
 
-const isProduction = import.meta.env.VITE_ISPROD == "true";
+const isProduction = import.meta.env.VITE_ISPROD == "false";
 
 const wagmiConfigLocal = createConfig({
   chains: [localhost],
   connectors: [metaMask()],
   transports: {
-    [localhost.id]: http(
-      import.meta.env.VITE_NODE_RPC_URL || process.env.NODE_RPC_URL,
-    ),
+    [localhost.id]: http(envClient.VITE_NODE_RPC_URL),
   },
 });
 
@@ -19,21 +18,19 @@ const wagmiConfigSepolia = createConfig({
   chains: [sepolia],
   connectors: [metaMask()],
   transports: {
-    [sepolia.id]: http(
-      import.meta.env.VITE_NODE_RPC_URL || process.env.NODE_RPC_URL,
-    ),
+    [sepolia.id]: http(envClient.VITE_NODE_RPC_URL),
   },
 });
 
 const publicClientLocal = createPublicClient({
   chain: localhost,
-  transport: http(import.meta.env.VITE_NODE_RPC_URL),
+  transport: http(envClient.VITE_NODE_RPC_URL),
   pollingInterval: 300_000, // 5 minutes
 });
 
 const publicClientSepolia = createPublicClient({
   chain: sepolia,
-  transport: http(import.meta.env.VITE_NODE_RPC_URL),
+  transport: http(envClient.VITE_NODE_RPC_URL),
   pollingInterval: 300_000, // 5 minutes
 });
 

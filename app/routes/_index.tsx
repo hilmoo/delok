@@ -8,6 +8,7 @@ import { randomUUID } from "uncrypto";
 import { createSiweMessage, generateSiweNonce } from "viem/siwe";
 import { useAccount, useConnect } from "wagmi";
 import Logo from "~/components/logo";
+import { envClient } from "~/envClient";
 import { commitSession, getSession } from "~/lib/sessions";
 import { storage } from "~/lib/storage";
 import type { LoginPayload } from "~/types/auth";
@@ -26,14 +27,14 @@ export async function loader({ params, request }: Route.LoaderArgs) {
 
   await storage.setItem(requestId, nonce);
 
-  console.log(process.env.VITE_COOKIE_DOMAIN);
+  console.log(envClient.VITE_COOKIE_DOMAIN);
 
   return data(
     {
       requestId: requestId,
       nonce: nonce,
-      VITE_COOKIE_DOMAIN: process.env.VITE_COOKIE_DOMAIN || "localhost",
-      VITE_BASE_URL: process.env.VITE_BASE_URL || "http://localhost:3000",
+      VITE_COOKIE_DOMAIN: envClient.VITE_COOKIE_DOMAIN || "localhost",
+      VITE_BASE_URL: envClient.VITE_BASE_URL || "http://localhost:3000",
     },
     {
       headers: {

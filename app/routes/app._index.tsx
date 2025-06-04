@@ -1,6 +1,7 @@
 import { Container, Paper } from "@mantine/core";
 import { data, redirect } from "react-router";
 import { LmsCards } from "~/components/Cards/LmsCards";
+import { envClient } from "~/envClient";
 import { getSession } from "~/lib/sessions";
 import type { Lms } from "~/types/lms";
 import type { Route } from "./+types/app._index";
@@ -16,7 +17,7 @@ export async function loader({ params, request }: Route.LoaderArgs) {
     {
       id: 1,
       name: "ELEMES",
-      url: process.env.VITE_ELEMES_URL || "",
+      url: envClient.VITE_ELEMES_URL,
     },
   ];
   return data({

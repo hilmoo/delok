@@ -12,6 +12,7 @@ services:
       - VITE_NODE_RPC_URL=${VITE_NODE_RPC_URL}
       - VITE_COOKIE_DOMAIN=${VITE_COOKIE_DOMAIN}
       - VITE_BASE_URL=${VITE_BASE_URL}
+      - SESSION_SECRET=${SESSION_SECRET}
     networks:
       - delok_elemes-app
 

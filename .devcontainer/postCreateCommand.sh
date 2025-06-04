@@ -1,4 +1,4 @@
-npm install
+npm install --force
 
 export HARDHAT_DISABLE_TELEMETRY_PROMPT=true
 export HARDHAT_IGNITION_CONFIRM_DEPLOYMENT=false

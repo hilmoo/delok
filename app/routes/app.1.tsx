@@ -22,10 +22,12 @@ import {
   lmsElemesAbi,
   lmsElemesAddress,
 } from "~/abi";
+import { envClient } from "~/envClient";
 import { getSession } from "~/lib/sessions";
 import type { ExamData } from "~/types/lms";
 import { chainId, publicClient } from "~/wagmi-config";
 import type { Route } from "./+types/app.1";
+import { envServer } from "~/envServer";
 
 export async function loader({ request }: Route.LoaderArgs) {
   const session = await getSession(request.headers.get("Cookie"));
@@ -35,12 +37,11 @@ export async function loader({ request }: Route.LoaderArgs) {
   }
 
   const examData: ExamData[] = await ofetch(
-    process.env.ELEMES_URL_DOCKER + "/api/exams",
+    envServer.ELEMES_URL_DOCKER + "/api/exams",
     { parseResponse: JSON.parse },
   );
 
-  const VITE_ELEMES_URL =
-    process.env.VITE_ELEMES_URL || "http://localhost:3000";
+  const VITE_ELEMES_URL = envClient.VITE_ELEMES_URL;
 
   return { examData, VITE_ELEMES_URL };
 }
