@@ -50,12 +50,21 @@ export default function Index({ loaderData }: Route.ComponentProps) {
       if (!address) {
         throw new Error("No address found. Please connect your wallet.");
       }
+      console.log({
+        address,
+        chainId,
+        domain: import.meta.env.VITE_COOKIE_DOMAIN,
+        uri: import.meta.env.VITE_BASE_URL,
+        nonce,
+        requestId,
+      });
+
       const message = createSiweMessage({
         address: address,
         chainId: chainId,
-        domain: import.meta.env.VITE_COOKIE_DOMAIN || "localhost",
+        domain: import.meta.env.VITE_COOKIE_DOMAIN,
         nonce: nonce,
-        uri: import.meta.env.VITE_BASE_URL || "localhost",
+        uri: import.meta.env.VITE_BASE_URL,
         version: "1",
         requestId: requestId,
       });
