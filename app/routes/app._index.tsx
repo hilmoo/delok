@@ -16,7 +16,7 @@ export async function loader({ params, request }: Route.LoaderArgs) {
     {
       id: 1,
       name: "ELEMES",
-      url: import.meta.env.VITE_ELEMES_URL,
+      url: process.env.VITE_ELEMES_URL || "",
     },
   ];
   return data({

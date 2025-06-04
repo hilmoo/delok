@@ -39,11 +39,14 @@ export async function loader({ request }: Route.LoaderArgs) {
     { parseResponse: JSON.parse },
   );
 
-  return examData;
+  const VITE_ELEMES_URL =
+    process.env.VITE_ELEMES_URL || "http://localhost:3000";
+
+  return { examData, VITE_ELEMES_URL };
 }
 
 export default function Index({ loaderData }: Route.ComponentProps) {
-  const examData = loaderData;
+  const { examData, VITE_ELEMES_URL } = loaderData;
   const { data: hash, error, isPending, writeContract } = useWriteContract();
   const [lmsId, setLmsId] = useState("");
   const [tokenId, setTokenId] = useState("");
@@ -179,7 +182,7 @@ export default function Index({ loaderData }: Route.ComponentProps) {
         <Fieldset legend="Register">
           <TextInput
             label="Your account Id"
-            description={`${import.meta.env.VITE_ELEMES_URL}/api/data/id`}
+            description={`${VITE_ELEMES_URL}/api/data/id`}
             onChange={(e) => setLmsId(e.currentTarget.value)}
           />
           <Button
@@ -193,7 +196,8 @@ export default function Index({ loaderData }: Route.ComponentProps) {
         </Fieldset>
         <Space h="md" />
         <Text size="sm" c="dimmed">
-          Dont mint before actually finishing the exam, otherwise you will not able to mint again
+          Dont mint before actually finishing the exam, otherwise you will not
+          able to mint again
         </Text>
         {examData?.map((exam) => (
           <div key={exam.id}>

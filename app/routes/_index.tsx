@@ -26,10 +26,14 @@ export async function loader({ params, request }: Route.LoaderArgs) {
 
   await storage.setItem(requestId, nonce);
 
+  console.log(process.env.VITE_COOKIE_DOMAIN);
+
   return data(
     {
       requestId: requestId,
       nonce: nonce,
+      VITE_COOKIE_DOMAIN: process.env.VITE_COOKIE_DOMAIN || "localhost",
+      VITE_BASE_URL: process.env.VITE_BASE_URL || "http://localhost:3000",
     },
     {
       headers: {
@@ -40,7 +44,7 @@ export async function loader({ params, request }: Route.LoaderArgs) {
 }
 
 export default function Index({ loaderData }: Route.ComponentProps) {
-  const { requestId, nonce } = loaderData;
+  const { requestId, nonce, VITE_COOKIE_DOMAIN, VITE_BASE_URL } = loaderData;
   const { address } = useAccount();
   const { connectors, connect } = useConnect();
   const navigate = useNavigate();
@@ -53,8 +57,8 @@ export default function Index({ loaderData }: Route.ComponentProps) {
       console.log({
         address,
         chainId,
-        domain: import.meta.env.VITE_COOKIE_DOMAIN,
-        uri: import.meta.env.VITE_BASE_URL,
+        domain: VITE_COOKIE_DOMAIN,
+        uri: VITE_BASE_URL,
         nonce,
         requestId,
       });
@@ -62,9 +66,9 @@ export default function Index({ loaderData }: Route.ComponentProps) {
       const message = createSiweMessage({
         address: address,
         chainId: chainId,
-        domain: import.meta.env.VITE_COOKIE_DOMAIN,
+        domain: VITE_COOKIE_DOMAIN,
         nonce: nonce,
-        uri: import.meta.env.VITE_BASE_URL,
+        uri: VITE_BASE_URL,
         version: "1",
         requestId: requestId,
       });
