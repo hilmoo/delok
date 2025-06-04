@@ -4,7 +4,7 @@ import { localhost, sepolia } from "wagmi/chains";
 import { metaMask } from "wagmi/connectors";
 import { envClient } from "./envClient";
 
-const isProduction = import.meta.env.VITE_ISPROD == "false";
+const isProduction = envClient.VITE_ISPROD == "true";
 
 const wagmiConfigLocal = createConfig({
   chains: [localhost],
