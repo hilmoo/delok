@@ -26,7 +26,7 @@ const clientSepolia = createWalletClient({
 const publicClientLocal = createPublicClient({
   chain: localhost,
   transport: http(process.env.NODE_RPC_URL),
-  pollingInterval: 60_000, // 1 minutes
+  pollingInterval: 1_000, // 1 minutes
 });
 const publicClientSepolia = createPublicClient({
   chain: sepolia,

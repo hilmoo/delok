@@ -11,6 +11,7 @@ import {
   Title,
 } from "@mantine/core";
 import { useMutation } from "@tanstack/react-query";
+import { getAccount } from "@wagmi/core";
 import { ofetch } from "ofetch";
 import { useState } from "react";
 import { redirect } from "react-router";
@@ -23,11 +24,11 @@ import {
   lmsElemesAddress,
 } from "~/abi";
 import { envClient } from "~/envClient";
+import { envServer } from "~/envServer";
 import { getSession } from "~/lib/sessions";
 import type { ExamData } from "~/types/lms";
-import { chainId, publicClient } from "~/wagmi-config";
+import { chainId, publicClient, wagmiConfig } from "~/wagmi-config";
 import type { Route } from "./+types/app.1";
-import { envServer } from "~/envServer";
 
 export async function loader({ request }: Route.LoaderArgs) {
   const session = await getSession(request.headers.get("Cookie"));
@@ -104,6 +105,9 @@ export default function Index({ loaderData }: Route.ComponentProps) {
       if (!tokenId) {
         throw new Error("Token URI is required");
       }
+      if (isNaN(Number(tokenId))) {
+        throw new Error("Token ID must be a number");
+      }
       const tokenUri = await publicClient.readContract({
         address: delokCertificateAddress[chainId],
         abi: delokCertificateAbi,
@@ -174,6 +178,35 @@ export default function Index({ loaderData }: Route.ComponentProps) {
           );
         }
       });
+    },
+  });
+
+  const { connector } = getAccount(wagmiConfig);
+  const mutationWatchAsset = useMutation({
+    mutationFn: async () => {
+      if (!tokenId) {
+        throw new Error("Token ID is required");
+      }
+      if (isNaN(Number(tokenId))) {
+        throw new Error("Token ID must be a number");
+      }
+      await window.ethereum.request({
+        method: "wallet_watchAsset",
+        params: {
+          type: "ERC721",
+          options: {
+            address: delokCertificateAddress[chainId],
+            symbol: "DLC",
+            tokenId: tokenId,
+          },
+        },
+      });
+    },
+    onSuccess: () => {
+      console.log("Asset watch successful");
+    },
+    onError: (error) => {
+      console.error("Asset watch failed:", error);
     },
   });
 
@@ -265,12 +298,16 @@ export default function Index({ loaderData }: Route.ComponentProps) {
         )}
         <Divider h="md" />
         <TextInput
-          label="Get Token URI"
+          label="Token ID"
           onChange={(e) => setTokenId(e.currentTarget.value)}
         />
         <Space h="sm" />
+        <Button fullWidth onClick={() => mutationWatchAsset.mutate()}>
+          Add to wallet
+        </Button>
+        <Space h="sm" />
         <Button fullWidth onClick={() => mutationGetTokenUri.mutate()}>
-          Get
+          Get token URI
         </Button>
         <Space h="sm" />
         {tokenUri && <Text>Token URI : {tokenUri}</Text>}

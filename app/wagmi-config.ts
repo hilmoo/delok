@@ -25,7 +25,7 @@ const wagmiConfigSepolia = createConfig({
 const publicClientLocal = createPublicClient({
   chain: localhost,
   transport: http(envClient.VITE_NODE_RPC_URL),
-  pollingInterval: 300_000, // 5 minutes
+  pollingInterval: 1_000, // 1 milisecond
 });
 
 const publicClientSepolia = createPublicClient({
