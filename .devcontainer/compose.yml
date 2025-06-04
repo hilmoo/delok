@@ -36,7 +36,7 @@ services:
       - 127.0.0.1:5001:5001
 
   LMS_elemes:
-    image: ghcr.io/hilmoo/elemes:1.1.1
+    image: ghcr.io/hilmoo/elemes:1.2.0
     container_name: delok_elemes
     ports:
       - "4000:3000"
