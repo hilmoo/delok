@@ -12,8 +12,8 @@ const { getSession, commitSession, destroySession } =
   createCookieSessionStorage<SessionData, SessionFlashData>({
     cookie: {
       name: "session",
-      domain: "localhost",
-      // httpOnly: true,
+      domain: import.meta.env.VITE_BASE_URL || "localhost",
+      httpOnly: import.meta.env.VITE_ISPROD ? true : false,
       maxAge: 60 * 60 * 1, // 1 hour
       path: "/",
       sameSite: "lax",

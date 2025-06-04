@@ -58,6 +58,7 @@ services:
     environment:
       - DATABASE_URL=${DATABASE_URL}
       - BETTER_AUTH_SECRET=${BETTER_AUTH_SECRET}
+      - ORACLE_HEADER=${ORACLE_HEADER}
     depends_on:
       db_elemes:
         condition: service_healthy

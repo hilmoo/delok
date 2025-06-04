@@ -53,7 +53,7 @@ export default function Index({ loaderData }: Route.ComponentProps) {
       const message = createSiweMessage({
         address: address,
         chainId: chainId,
-        domain: "localhost",
+        domain: import.meta.env.VITE_ELEMES_URL || "localhost",
         nonce: nonce,
         uri: import.meta.env.VITE_ELEMES_URL,
         version: "1",

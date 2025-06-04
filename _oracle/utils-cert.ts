@@ -13,7 +13,7 @@ export async function uploadPdfToIpfs({ userId, examId }: UploadProps) {
     `${process.env.ELEMES_URL_DOCKER}/api/oracle/cert/${userId}/${examId}`,
     {
       headers: {
-        "X-Is-oracle": "1",
+        "X-Is-oracle": process.env.ORACLE_HEADER || "1",
       },
     },
   );
@@ -65,7 +65,7 @@ export async function getGrade({
     `${process.env.ELEMES_URL_DOCKER}/api/oracle/data/${userId}/grade/${examId}`,
     {
       headers: {
-        "X-Is-oracle": "1",
+        "X-Is-oracle": process.env.ORACLE_HEADER || "1",
       },
     },
   );

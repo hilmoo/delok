@@ -8,6 +8,7 @@ services:
       - ELEMES_URL_DOCKER=${ELEMES_URL_DOCKER}
       - NODE_RPC_URL=${NODE_RPC_URL}
       - VITE_NODE_RPC_URL=${VITE_NODE_RPC_URL}
+      - VITE_BASE_URL=${VITE_BASE_URL}
     networks:
       - delok_elemes-app
 
@@ -19,6 +20,7 @@ services:
       - KUBO_RPC_DOCKER=${KUBO_RPC_DOCKER}
       - NODE_RPC_URL=${NODE_RPC_URL}
       - ORACLE_PRIVATE_KEY=${ORACLE_PRIVATE_KEY}
+      - ORACLE_HEADER=${ORACLE_HEADER}
     networks:
       - delok_elemes-oracle
       - delok_kubo-oracle
