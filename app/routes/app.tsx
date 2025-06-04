@@ -3,6 +3,7 @@ import { useMutation } from "@tanstack/react-query";
 import { ofetch } from "ofetch";
 import { Outlet, redirect, useNavigate } from "react-router";
 import { useDisconnect } from "wagmi";
+import Logo from "~/components/logo";
 import { SchemaColor } from "~/components/SchemaColor/SchemaColor";
 import { getSession } from "~/lib/sessions";
 import type { Route } from "./+types/app";
@@ -43,7 +44,9 @@ export default function Index({ loaderData }: Route.ComponentProps) {
               variant="transparent"
               aria-label="Logo"
               onClick={() => navigate("/app")}
-            ></ActionIcon>
+            >
+              <Logo />
+            </ActionIcon>
             <Group>
               <Button
                 bg={"red"}

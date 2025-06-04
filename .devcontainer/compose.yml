@@ -6,6 +6,8 @@ services:
     command: sleep infinity
     env_file:
       - .env
+    networks:
+      - delok_elemes-app
 
   oracle:
     container_name: delok_oracle
@@ -60,6 +62,7 @@ services:
     networks:
       - delok_elemes-network
       - delok_elemes-oracle
+      - delok_elemes-app
 
   db_elemes:
     image: postgres:17-alpine
@@ -84,6 +87,7 @@ volumes:
   delok_ipfs_data:
 
 networks:
+  delok_elemes-app:
   delok_elemes-network:
   delok_elemes-oracle:
   delok_kubo-oracle:

@@ -1,13 +1,16 @@
 import {
   Button,
   Container,
+  Divider,
   Fieldset,
+  Group,
   Paper,
   Space,
   Text,
   TextInput,
 } from "@mantine/core";
 import { useMutation } from "@tanstack/react-query";
+import { ofetch } from "ofetch";
 import { useState } from "react";
 import { redirect } from "react-router";
 import { toHex } from "viem";
@@ -19,8 +22,9 @@ import {
   lmsElemesAddress,
 } from "~/abi";
 import { getSession } from "~/lib/sessions";
+import type { ExamData } from "~/types/lms";
 import { publicClient } from "~/wagmi-config";
-import type { Route } from "./+types/app._index";
+import type { Route } from "./+types/app.1";
 
 export async function loader({ request }: Route.LoaderArgs) {
   const session = await getSession(request.headers.get("Cookie"));
@@ -28,9 +32,17 @@ export async function loader({ request }: Route.LoaderArgs) {
   if (!session.has("address")) {
     return redirect("/");
   }
+
+  const examData: ExamData[] = await ofetch(
+    process.env.ELEMES_URL_DOCKER + "/api/exams",
+    { parseResponse: JSON.parse },
+  );
+
+  return examData;
 }
 
 export default function Index({ loaderData }: Route.ComponentProps) {
+  const examData = loaderData;
   const { data: hash, error, isPending, writeContract } = useWriteContract();
   const [lmsId, setLmsId] = useState("");
   const [tokenId, setTokenId] = useState("");
@@ -122,17 +134,24 @@ export default function Index({ loaderData }: Route.ComponentProps) {
             Register
           </Button>
         </Fieldset>
-        <Fieldset legend="Minting Certificate">
-          <Text>Make sure already create 1 course (exam)</Text>
-          <Button
-            mt="md"
-            fullWidth
-            onClick={() => mutationrequestCertificate.mutate(1)}
-            loading={mutationrequestCertificate.isPending}
-          >
-            Course 1
-          </Button>
-        </Fieldset>
+        <Space h="md" />
+        {examData?.map((exam) => (
+          <div key={exam.id}>
+            <Paper withBorder shadow="sm" px={"md"} py={"sm"} radius="md">
+              <Group align={"center"} justify="space-between">
+                <Text>{exam.title}</Text>
+                <Button
+                  onClick={() => mutationrequestCertificate.mutate(exam.id)}
+                  loading={mutationrequestCertificate.isPending}
+                  bg={"green"}
+                >
+                  Mint
+                </Button>
+              </Group>
+            </Paper>
+            <Divider my="md" />
+          </div>
+        ))}
       </Paper>
       <Paper withBorder shadow="sm" p={22} mt={30} radius="md">
         <Fieldset legend="current transaction status">
