@@ -4,8 +4,14 @@ services:
       context: .
       dockerfile: Dockerfile
     command: sleep infinity
-    env_file:
-      - .env
+    environment:
+      - VITE_ISPROD=false
+      - VITE_ELEMES_URL=${VITE_ELEMES_URL}
+      - ELEMES_URL_DOCKER=${ELEMES_URL_DOCKER}
+      - NODE_RPC_URL=${NODE_RPC_URL}
+      - VITE_NODE_RPC_URL=${VITE_NODE_RPC_URL}
+      - VITE_COOKIE_DOMAIN=${VITE_COOKIE_DOMAIN}
+      - VITE_BASE_URL=${VITE_BASE_URL}
     networks:
       - delok_elemes-app
 
@@ -20,6 +26,7 @@ services:
       - KUBO_RPC_DOCKER=${KUBO_RPC_DOCKER}
       - NODE_RPC_URL=${NODE_RPC_URL}
       - ORACLE_PRIVATE_KEY=${ORACLE_PRIVATE_KEY}
+      - ORACLE_HEADER=${ORACLE_HEADER}
     networks:
       - delok_elemes-oracle
       - delok_kubo-oracle
@@ -51,7 +58,7 @@ services:
       - delok_kubo-oracle
 
   LMS_elemes:
-    image: ghcr.io/hilmoo/elemes:1.2.0
+    image: ghcr.io/hilmoo/elemes:1.2.1
     container_name: delok_elemes
     ports:
       - "3000:3000"

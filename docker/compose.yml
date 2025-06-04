@@ -9,8 +9,6 @@ services:
       - NODE_RPC_URL=${NODE_RPC_URL}
       - VITE_NODE_RPC_URL=${VITE_NODE_RPC_URL}
       - VITE_BASE_URL=${VITE_BASE_URL}
-    networks:
-      - delok_elemes-app
 
   oracle:
     image: ghcr.io/hilmoo/delokoracle:1.0.0
@@ -22,7 +20,6 @@ services:
       - ORACLE_PRIVATE_KEY=${ORACLE_PRIVATE_KEY}
       - ORACLE_HEADER=${ORACLE_HEADER}
     networks:
-      - delok_elemes-oracle
       - delok_kubo-oracle
 
   kubo:
@@ -39,46 +36,9 @@ services:
     networks:
       - delok_kubo-oracle
 
-  LMS_elemes:
-    image: ghcr.io/hilmoo/elemes:1.2.0
-    container_name: delok_elemes
-    ports:
-      - "3000:3000"
-    environment:
-      - DATABASE_URL=${DATABASE_URL}
-      - BETTER_AUTH_SECRET=${BETTER_AUTH_SECRET}
-    depends_on:
-      db_elemes:
-        condition: service_healthy
-    networks:
-      - delok_elemes-network
-      - delok_elemes-oracle
-      - delok_elemes-app
-
-  db_elemes:
-    image: postgres:17-alpine
-    container_name: delok_elemes-db
-    volumes:
-      - delok_db-elemes:/var/lib/postgresql/data
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres"]
-      interval: 30s
-      timeout: 30s
-      retries: 3
-    environment:
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      POSTGRES_DB: ${POSTGRES_DB}
-    networks:
-      - delok_elemes-network
-
 volumes:
-  delok_db-elemes:
   delok_ipfs_staging:
   delok_ipfs_data:
 
 networks:
-  delok_elemes-app:
-  delok_elemes-network:
-  delok_elemes-oracle:
   delok_kubo-oracle:

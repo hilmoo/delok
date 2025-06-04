@@ -28,13 +28,13 @@ const wagmiConfigSepolia = createConfig({
 const publicClientLocal = createPublicClient({
   chain: localhost,
   transport: http(import.meta.env.VITE_NODE_RPC_URL),
-  pollingInterval: 60_000, // 1 minutes
+  pollingInterval: 300_000, // 5 minutes
 });
 
 const publicClientSepolia = createPublicClient({
   chain: sepolia,
   transport: http(import.meta.env.VITE_NODE_RPC_URL),
-  pollingInterval: 60_000, // 1 minutes
+  pollingInterval: 300_000, // 5 minutes
 });
 
 export const chainId = isProduction ? 11155111 : 1337;

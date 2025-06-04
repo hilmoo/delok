@@ -1,5 +1,7 @@
 npm install
 
+export HARDHAT_DISABLE_TELEMETRY_PROMPT=true
+export HARDHAT_IGNITION_CONFIRM_DEPLOYMENT=false
 cd _hardhat
 rm -r ./ignition/deployments/
 echo "$NODE_RPC_URL" | npx hardhat vars set NODE_RPC_URL

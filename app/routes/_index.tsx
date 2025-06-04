@@ -53,9 +53,9 @@ export default function Index({ loaderData }: Route.ComponentProps) {
       const message = createSiweMessage({
         address: address,
         chainId: chainId,
-        domain: import.meta.env.VITE_ELEMES_URL || "localhost",
+        domain: import.meta.env.VITE_COOKIE_DOMAIN || "localhost",
         nonce: nonce,
-        uri: import.meta.env.VITE_ELEMES_URL,
+        uri: import.meta.env.VITE_BASE_URL || "localhost",
         version: "1",
         requestId: requestId,
       });
