@@ -65,12 +65,6 @@ npm run dev
 - **Hardhat Node**: http://localhost:8545
 - **Block Explorer**: http://localhost:4000
 
-## 🐳 Production Deployment
-
-### Docker Compose Services
-
-For reference, check the [compose file](./docker/compose.yml).
-
 ## 🛠️ Development
 
 ### Project Structure
