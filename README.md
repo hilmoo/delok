@@ -22,6 +22,13 @@ DELOK is a comprehensive dApp that bridges traditional Learning Management Syste
 - 🤖 **Oracle System**: Automated verification and certificate issuance
 - ⚡ **Local Development**: Complete local blockchain environment (100% self-hostable)
 
+## 🌐 Live Demo
+
+> [!IMPORTANT]  
+> This app was built solely for my course project and is not intended for production use. I developed it in about two weeks, so it may contain some bugs and has not been fully tested.
+
+Visit [https://github.com/hilmoo/delok/wiki/Elemes-LMS](https://github.com/hilmoo/delok/wiki/Elemes-LMS) to learn how to use Elemes LMS with DELOK
+
 ## 🚀 Quick Start
 
 ### Prerequisites
@@ -45,9 +52,10 @@ npm install
 - Wait for the container to build and start
 
 ### 3. **Start development:**
-   ```bash
-   npm run dev
-   ```
+
+```bash
+npm run dev
+```
 
 ### 4. Access the Application
 
@@ -83,7 +91,6 @@ delok/
 #### DelokCertificate Contract
 
 - **Address**: `0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0`
-
 
 ## 📦 Tech Stack
 
