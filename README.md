@@ -15,7 +15,7 @@ DELOK is a comprehensive dApp that bridges traditional Learning Management Syste
 
 ### Key Features
 
-- 🎓 **LMS Integration**: Connect with existing learning platforms like Elemes
+- 🎓 **LMS Integration**: Connect with existing learning platforms like [Elemes](https://elemes.hilmo.dev)
 - 🔐 **SIWE Authentication**: Sign-In with Ethereum for secure wallet-based login
 - 📜 **NFT Certificates**: Mint verifiable certificates as ERC-721 tokens
 - 🌐 **IPFS Storage**: Decentralized storage for certificates and metadata
